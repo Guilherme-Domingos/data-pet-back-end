@@ -1,21 +1,20 @@
 export class prontarioDTO{
 
     nome: string;
-    cpf: string;
+    cpfTutor: string;
     data_nascimento: Date;
+    porteFisico: string;
     sexo: string;
-    estado_civil: string;
-    profissao: string;
-    escolaridade: string;
-    email: string;
-    telefone: string;
+    doencas: string;
+    vacinas: string;
+    tutor: string;
     endereco: string;
-    cep: string;
-    cidade: string;
-    estado: string;
-    data_atualizacao: Date;
-    data_cadastro: Date;
-    data_exclusao: Date;
+    telefone: string;
+    raca: string;
+    email: string;
+    data_atualizacao?: Date;
+    data_cadastro?: Date;
+    data_exclusao?: Date;
 
 
 }

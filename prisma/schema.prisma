@@ -16,19 +16,18 @@ datasource db {
 model Prontuario {
   id               Int       @id @default(autoincrement())
   nome             String
-  cpf              String
+  cpfTutor         String
   data_nascimento  DateTime
+  porteFisico      String
   sexo             String
-  telefone         String
-  email            String
+  doencas          String
+  vacinas          String
+  tutor            String
   endereco         String
-  cidade           String
-  estado           String
-  cep              String
-  profissao        String
-  estado_civil     String
-  escolaridade     String
-  data_cadastro    DateTime
-  data_atualizacao DateTime
+  telefone         String
+  raca             String
+  email            String
+  data_cadastro    DateTime  @default(now())
+  data_atualizacao DateTime  @updatedAt
   data_exclusao    DateTime?
 }
