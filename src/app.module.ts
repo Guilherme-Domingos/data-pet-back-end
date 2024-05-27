@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { PrismaService } from 'src/prisma/service';
+import { CreateProntuarioController } from './feat/prontuario/controller/createProntuario.controller';
+import { listProntuario } from './feat/prontuario/controller/listProntuario.controller';
 
 @Module({
   imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [CreateProntuarioController, listProntuario],
+  providers: [PrismaService],
 })
 export class AppModule {}
