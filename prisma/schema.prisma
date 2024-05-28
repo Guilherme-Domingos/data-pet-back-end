@@ -43,6 +43,8 @@ model Animais {
   nome             String
   especie          String
   raca             String
+  idade            Int
+  peso             Float
   porte            String
   sexo             String
   data_nascimento  DateTime

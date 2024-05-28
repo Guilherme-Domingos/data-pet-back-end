@@ -1,10 +1,10 @@
 import { Body, Controller, Logger, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
-import { LocalAuthGuard } from '../../../guards/localauth';
-import { AuthService } from '../../../services/auth.service';
-import { authDTO } from '../../../DTOs/auth.dto';
+import { LocalAuthGuard } from '../../../auth/guards/localauth';
+import { AuthService } from '../../../auth/services/auth.service';
+import { authDTO } from '../../../auth/DTOs/auth.dto';
 import { Cliente } from '@prisma/client';
-import { JwtAuthGuard } from '../../../guards/jwtguard';
+import { JwtAuthGuard } from '../../../auth/guards/jwtguard';
 
 @Controller('/cliente')
 export class authClient {
@@ -32,7 +32,6 @@ export class authClient {
             data_exclusao,
         } = req.user;
 
-        
         const data: Cliente = {
             id,
             nome,
@@ -49,11 +48,9 @@ export class authClient {
 
         try {
             return this.auth.login(data);
-        }catch(e){
+        } catch (e) {
             this.logger.error(e);
             throw e;
         }
-        
-        
     }
 }
