@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,21 +7,105 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Prontuario {
-  id               Int       @id @default(autoincrement())
+model Veterinario {
+  id               Int                 @id @default(autoincrement())
   nome             String
-  cpfTutor         String
+  cpf              String
+  crmv             String
   data_nascimento  DateTime
-  porteFisico      String
-  sexo             String
-  doencas          String
-  vacinas          String
-  tutor            String
   endereco         String
   telefone         String
-  raca             String
   email            String
-  data_cadastro    DateTime  @default(now())
-  data_atualizacao DateTime  @updatedAt
+  data_cadastro    DateTime            @default(now())
+  data_atualizacao DateTime            @updatedAt
+  data_exclusao    DateTime?
+  consultas        HistoricoConsulta[]
+}
+
+model Cliente {
+  id               Int          @id @default(autoincrement())
+  nome             String
+  email            String       @unique
+  senha            String
+  cpf              String       @unique
+  data_nascimento  DateTime
+  endereco         String
+  telefone         String       @unique
+  data_cadastro    DateTime     @default(now())
+  data_atualizacao DateTime     @updatedAt
+  data_exclusao    DateTime?
+  animais          Animais[]
+  prontuarios      Prontuario[]
+}
+
+model Animais {
+  id               Int          @id @default(autoincrement())
+  nome             String
+  especie          String
+  raca             String
+  porte            String
+  sexo             String
+  data_nascimento  DateTime
+  tutorId          Int
+  tutor            Cliente      @relation(fields: [tutorId], references: [id])
+  data_cadastro    DateTime     @default(now())
+  data_atualizacao DateTime     @updatedAt
+  data_exclusao    DateTime?
+  prontuarios      Prontuario[]
+}
+
+model Prontuario {
+  id                Int                 @id @default(autoincrement())
+  doencas           String
+  vacinas           String
+  animalId          Int
+  animal            Animais             @relation(fields: [animalId], references: [id])
+  tutorId           Int
+  tutor             Cliente             @relation(fields: [tutorId], references: [id])
+  data_cadastro     DateTime            @default(now())
+  data_atualizacao  DateTime            @updatedAt
+  data_exclusao     DateTime?
+  historicoConsulta HistoricoConsulta[]
+  historicoVacina   HistoricoVacina[]
+  historicoServicos HistoricoServicos[]
+}
+
+model HistoricoConsulta {
+  id               Int         @id @default(autoincrement())
+  data_consulta    DateTime
+  peso             Float
+  temperatura      Float
+  pressao          String
+  diagnostico      String
+  veterinarioId    Int
+  veterinario      Veterinario @relation(fields: [veterinarioId], references: [id])
+  prontuarioId     Int
+  prontuario       Prontuario  @relation(fields: [prontuarioId], references: [id])
+  data_cadastro    DateTime    @default(now())
+  data_atualizacao DateTime    @updatedAt
+  data_exclusao    DateTime?
+}
+
+model HistoricoVacina {
+  id               Int        @id @default(autoincrement())
+  data_vacina      DateTime
+  vacina           String
+  observacao       String
+  prontuarioId     Int
+  prontuario       Prontuario @relation(fields: [prontuarioId], references: [id])
+  data_cadastro    DateTime   @default(now())
+  data_atualizacao DateTime   @updatedAt
+  data_exclusao    DateTime?
+}
+
+model HistoricoServicos {
+  id               Int        @id @default(autoincrement())
+  data_servico     DateTime
+  servico          String
+  descricao        String
+  prontuarioId     Int
+  prontuario       Prontuario @relation(fields: [prontuarioId], references: [id])
+  data_cadastro    DateTime   @default(now())
+  data_atualizacao DateTime   @updatedAt
   data_exclusao    DateTime?
 }

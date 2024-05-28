@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 
-export class prontarioDTO{
+export class prontuarioDTO{
     @ApiProperty()
     nome: string;
     @ApiProperty()
