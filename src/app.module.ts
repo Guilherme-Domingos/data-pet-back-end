@@ -4,10 +4,11 @@ import { CreateProntuarioController } from './feat/prontuario/controller/createP
 import { listProntuario } from './feat/prontuario/controller/listProntuario.controller';
 import { deleteProntuario } from './feat/prontuario/controller/deleteProntuario.controller';
 import { createUser } from './feat/consulta/auth/clientes/create/controller/cliente.controller';
+import { AuthModule } from './feat/consulta/auth/auth.module';
 
 @Module({
-  imports: [],
-  controllers: [CreateProntuarioController, listProntuario, deleteProntuario, createUser],
+  imports: [AuthModule],
+  controllers: [CreateProntuarioController, listProntuario, deleteProntuario],
   providers: [PrismaService],
 })
 export class AppModule {}
