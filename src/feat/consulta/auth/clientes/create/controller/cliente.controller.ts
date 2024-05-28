@@ -1,15 +1,16 @@
-import { Body, Controller, HttpCode, HttpException, Post } from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpException, Post, UseGuards } from "@nestjs/common";
 import { PrismaService } from "src/prisma/service";
 import { userDTO } from "../../DTOs/user.dtos";
 import e from "express";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { userServices } from "../services/user.service";
+import { JwtAuthGuard } from "../../../guards/jwtguard";
 
 
 @Controller('/cliente')
 export class createUser{
     constructor(private prisma: PrismaService, private service: userServices){}
-    @Post('/createUser')
+    @Post('/createCliente')
     @HttpCode(201)
     @ApiTags('Cliente')
     async createUser(@Body() body: userDTO){

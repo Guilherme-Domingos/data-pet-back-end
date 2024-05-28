@@ -4,6 +4,7 @@ import {
   Post,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/service';
 import { prontuarioDTO } from '../DTO/prontuarioDTO';
@@ -11,11 +12,13 @@ import { ApiTags } from '@nestjs/swagger';
 
 @Controller('/prontuario')
 export class CreateProntuarioController {
+  private readonly logger = new Logger(CreateProntuarioController.name);
   constructor(private prisma: PrismaService) {}
 
   @Post('/createProntuario')
   @ApiTags('Prontuario')
   async createProntuario(@Body() body: prontuarioDTO) {
+    this.logger.log('Entering createProntuario method');
     const {
       cpfTutor,
       nome,
