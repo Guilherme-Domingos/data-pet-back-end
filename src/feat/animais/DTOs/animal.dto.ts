@@ -27,8 +27,8 @@ export class AnimalDTO {
     @ApiProperty()
     data_nascimento: Date;
 
-    @ApiProperty()
-    tutorId: number;
+
+    tutorId?: number;
 
     @ApiProperty()
     data_cadastro: Date;

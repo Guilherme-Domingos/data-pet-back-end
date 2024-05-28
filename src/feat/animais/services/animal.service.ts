@@ -6,8 +6,8 @@ import { PrismaService } from 'src/prisma/service';
 export class AnimalService {
     constructor(private prisma: PrismaService) {}
 
-    async create(data: AnimalDTO) {
-        console.log(data);
+    async create(data: AnimalDTO, id: string) {
+        const numberID = parseInt(id);
         try {
             await this.prisma.animais.create({
                 data: {
@@ -18,7 +18,7 @@ export class AnimalService {
                     raca: data.raca,
                     idade: data.idade,
                     peso: data.peso,
-                    tutorId: data.tutorId,
+                    tutorId: numberID,
                     data_nascimento: data.data_nascimento,
                     data_atualizacao: data.data_atualizacao,
                     data_cadastro: data.data_cadastro,
