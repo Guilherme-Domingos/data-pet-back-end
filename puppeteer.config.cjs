@@ -1,4 +1,4 @@
-if(process.env.NODE_ENV === 'production') {
+if(process.env.CHECKER === 'production') {
     const { join } = require('path');
     /**
     * @type {import("puppeteer").Configuration}
