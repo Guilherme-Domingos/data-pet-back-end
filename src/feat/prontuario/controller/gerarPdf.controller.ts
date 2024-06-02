@@ -49,7 +49,7 @@ export class PdfGenerator {
                 </div>
             </body>
             </html>
-        `;
+        `; 
         
         try {
             const browser = await puppeteer.launch({
@@ -69,7 +69,7 @@ export class PdfGenerator {
             res.send(pdfBuffer);
         } catch (error) {
             console.error('Error generating PDF:', error);
-            res.status(500).send('Erro ao gerar o PDF');
+            res.status(500).send({ message: 'Erro ao gerar PDF', error: error});
         }
     }
 }

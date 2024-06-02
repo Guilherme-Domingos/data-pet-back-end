@@ -14,13 +14,13 @@ import { ApiTags } from '@nestjs/swagger';
 export class CreateProntuarioController {
   private readonly logger = new Logger(CreateProntuarioController.name);
   constructor(private prisma: PrismaService) {}
-
-  @Post('/createProntuario')
+ 
+  @Post('/createProntuario') 
   @ApiTags('Prontuario')
   async createProntuario(@Body() body: prontuarioDTO) {
     this.logger.log('Entering createProntuario method');
     const {
-      tutorId,
+      tutorId, 
       animalId,
       doencas,
       vacinas,
