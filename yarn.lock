@@ -870,7 +870,7 @@
   dependencies:
     "@prisma/debug" "5.14.0"
 
-"@puppeteer/browsers@2.2.3":
+"@puppeteer/browsers@2.2.3", "@puppeteer/browsers@^2.2.3":
   version "2.2.3"
   resolved "https://registry.yarnpkg.com/@puppeteer/browsers/-/browsers-2.2.3.tgz#ad6b79129c50825e77ddaba082680f4dad0b674e"
   integrity sha512-bJ0UBsk0ESOs6RFcLXOt99a3yTDcOKlzfjad+rhFwdaG1Lu/Wzq58GHYCDTlZ9z6mldf4g+NTb+TXEfe0PpnsQ==
