@@ -54,8 +54,7 @@ export class PdfGenerator {
         try {
             const browser = await puppeteer.launch({
                 headless: true,
-                args: ['--no-sandbox', '--disable-setuid-sandbox'],
-                executablePath:  process.env.NODE_ENV === 'production' ? '/opt/render/.cache/puppeteer/chrome/linux-125.0.6422.78/chrome-linux64/chrome' : undefined, 
+                args: ['--no-sandbox', '--disable-setuid-sandbox']
             });
             const page = await browser.newPage();
             await page.setContent(htmlContent, { waitUntil: 'networkidle0', timeout: 60000 });
