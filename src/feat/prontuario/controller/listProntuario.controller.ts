@@ -10,6 +10,11 @@ export class listProntuario {
     @Get('/listProntuario')
     @ApiTags('Prontuario')
     async listProntuario() {
-        return this.prisma.prontuario.findMany();
+        return this.prisma.prontuario.findMany({
+            include:{
+                animal: true,
+                tutor: true
+            }
+        });
     }
 }

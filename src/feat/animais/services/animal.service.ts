@@ -30,4 +30,8 @@ export class AnimalService {
             return { message: 'Erro ao cadastrar animal', error: error };
         }
     }
+
+    async listAllAnimals() {
+        return await this.prisma.animais.findMany();
+    }
 }

@@ -12,7 +12,7 @@ export class animalController {
     @Get()
     @ApiTags('Animais')
     async index() {
-        return this.animalService
+        return this.animalService.listAllAnimals()
     }
 
 
