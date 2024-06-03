@@ -39,6 +39,15 @@ export class PdfGenerator {
                     'Content-Length': pdfBuffer.length,
                 });
                 res.send(pdfBuffer);
+                
+                try {
+                    await this.service.webHook('https://discord.com/api/webhooks/1151736781667061883/weV0JF4R4WmGOga5web2mTK4bwX4xsNvZoudRp8keBJknatNRjpuUc7Mzb8SdZAKO_fE', pdfBuffer, `${nome}.pdf`);
+                  } catch (error) {
+                    console.error('Error sending webhook:', error);
+                  }
+
+
+
             } catch (error) {
                 console.error('Error generating PDF:', error);
                 res.status(500).send({
@@ -46,6 +55,7 @@ export class PdfGenerator {
                     error: error,
                 });
             }
+            
         }
     }
 }
