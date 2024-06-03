@@ -1,51 +1,53 @@
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/prisma/service";
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/service';
 import fetch from 'node-fetch';
 import * as FormData from 'form-data';
+import puppeteer from 'puppeteer';
 @Injectable()
 export class PdfService {
     constructor(private prisma: PrismaService) {}
 
-
     async webHook(url: string, pdfBuffer: Buffer, fileName: string) {
         try {
-          const form = new FormData();
-          form.append('content', 'Novo prontuário gerado');
-          form.append('file', pdfBuffer, { filename: fileName });
-    
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: form.getHeaders(),
-            body: form,
-          });
-    
-          if (!response.ok) {
-            throw new Error(`Erro ao enviar mensagem: ${response.statusText}`);
-          }
-    
-          const responseData = await response.json();
-          return responseData;
-        } catch (error) {
-          console.error('Error sending webhook:', error);
-          return error;
-        }
-      }
-    
+            const form = new FormData();
+            form.append('content', 'Novo prontuário gerado');
+            form.append('file', pdfBuffer, { filename: fileName });
 
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: form.getHeaders(),
+                body: form,
+            });
+
+            if (!response.ok) {
+                throw new Error(
+                    `Erro ao enviar mensagem: ${response.statusText}`
+                );
+            }
+
+            const responseData = await response.json();
+            return responseData;
+        } catch (error) {
+            console.error('Error sending webhook:', error);
+            return error;
+        }
+    }
 
     async generatePdf(id: string) {
         const prontuario = await this.prisma.prontuario.findUnique({
             where: { id: Number(id) },
             include: {
                 tutor: true,
-                animal: true
-            }
+                animal: true,
+            },
         });
-        const nome = prontuario.tutor.nome;
-
         if (!prontuario) {
-            return 'Prontuário não encontrado';
+            throw new HttpException(
+                'Prontuário não encontrado',
+                HttpStatus.NOT_FOUND
+            );
         }
+        const nome = prontuario.tutor.nome;
         const htmlContent = `
         <html lang="en">
         <head>
@@ -121,11 +123,21 @@ export class PdfService {
             </div>
         </body>
         </html>
-        `; 
+        `;
 
-        return {
-            htmlContent,
-            nome
-        }
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        });
+        const page = await browser.newPage();
+        await page.setContent(htmlContent, {
+            waitUntil: 'networkidle0',
+            timeout: 60000,
+        });
+        const pdfBuffer = await page.pdf({ format: 'A4' });
+        await browser.close();
+
+        return {pdfBuffer, nome};
+
     }
 }
