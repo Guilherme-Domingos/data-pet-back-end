@@ -3,33 +3,76 @@ import { PrismaService } from 'src/prisma/service';
 import fetch from 'node-fetch';
 import * as FormData from 'form-data';
 import puppeteer from 'puppeteer';
+
+
+function capitalizeFirstLetter(text: string): string {
+    if (text.length === 0) return text;
+    return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 @Injectable()
 export class PdfService {
     constructor(private prisma: PrismaService) {}
 
-    async webHook(url: string, pdfBuffer: Buffer, fileName: string) {
+
+    async webHook(number: string, id: string) {
         try {
+            const {nome, pdfBuffer } = await this.generatePdf(id);
+            const nomeFormatted = capitalizeFirstLetter(nome);
+            const fileName = `${nomeFormatted}.pdf`;
+            const formattedNumber = number + '@c.us';
+            const message = `Olá ${nomeFormatted}! segue o prontuário do seu pet! agredecemos a preferência!`;
+
             const form = new FormData();
             form.append('content', 'Novo prontuário gerado');
             form.append('file', pdfBuffer, { filename: fileName });
 
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: form.getHeaders(),
-                body: form,
-            });
 
-            if (!response.ok) {
+            const pdfBase64 = pdfBuffer.toString('base64');
+
+            const sendText = await fetch(
+                'http://localhost:3000/client/sendMessage/ABCD',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chatId: formattedNumber,
+                        contentType: 'string',
+                        content: message,
+                    }),
+                }
+            );
+
+            const responseWhats = await fetch(
+                'http://localhost:3000/client/sendMessage/ABCD',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chatId: formattedNumber,
+                        contentType: 'MessageMedia',
+                        content: {
+                            mimetype: 'application/pdf',
+                            data: pdfBase64,
+                            filename: fileName,
+                        },
+                    }),
+                }
+            );
+
+            if (!responseWhats.ok || !sendText.ok) {
                 throw new Error(
-                    `Erro ao enviar mensagem: ${response.statusText}`
+                    `Erro ao enviar mensagem: ${responseWhats.statusText}, ${sendText.statusText}`
                 );
             }
 
-            const responseData = await response.json();
-            return responseData;
+            return { message: 'Mensagem enviada com sucesso', sendFile: responseWhats.statusText, sendText: sendText.statusText};
         } catch (error) {
-            console.error('Error sending webhook:', error);
-            return error;
+            throw new HttpException('Erro ao enviar mensagem', HttpStatus.SERVICE_UNAVAILABLE);
         }
     }
 
@@ -65,9 +108,6 @@ export class PdfService {
             <html lang="en">
                 <head>
                     <meta charset="UTF-8" />
-                    <link rel="preconnect" href="https://fonts.googleapis.com">
-                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
                     <title>Prontuário</title>
                     <style>
                         body {
@@ -520,14 +560,14 @@ export class PdfService {
                                 </svg>
                             </div>
                             <input
-    style="
-        font-family: 'Dancing Script', cursive;
-        font-optical-sizing: auto;
-        font-weight: normal;
-        font-style: normal;
-    "
-    placeholder="${prontuario.veterinario.nome}"
-/>
+                                style="
+                                    font-style: italic;
+                                    font-size: 4ex;
+                                    height: 25px;
+                                    border: 0;
+                                    font-family: Autography, Arial, sans-serif;
+                                "
+                                placeholder="${prontuario.veterinario.nome}" />
                         </div>
 
                         <div class="id" style="width: 21%; text-align: left">
