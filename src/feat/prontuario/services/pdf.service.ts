@@ -16,6 +16,7 @@ export class PdfService {
 
 
     async webHook(number: string, id: string) {
+        const baseUrl = process.env.CHECKER == 'development' ? 'http://localhost:3000' : 'https://pure-crag-55388-d0bfd4ddccfc.herokuapp.com'
         try {
             const {nome, pdfBuffer } = await this.generatePdf(id);
             const nomeFormatted = capitalizeFirstLetter(nome);
@@ -31,7 +32,7 @@ export class PdfService {
             const pdfBase64 = pdfBuffer.toString('base64');
 
             const sendText = await fetch(
-                'http://localhost:3000/client/sendMessage/ABCD',
+                `${baseUrl}/client/sendMessage/doug`,
                 {
                     method: 'POST',
                     headers: {
@@ -46,7 +47,7 @@ export class PdfService {
             );
 
             const responseWhats = await fetch(
-                'http://localhost:3000/client/sendMessage/ABCD',
+                `${baseUrl}/client/sendMessage/doug`,
                 {
                     method: 'POST',
                     headers: {
