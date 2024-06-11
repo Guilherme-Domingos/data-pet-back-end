@@ -16,6 +16,7 @@ import { AnimalService } from '../services/animal.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/feat/auth/guards/jwtguard';
 import { z } from 'zod';
+import { VetAuthGuard } from 'src/feat/auth/guards/vetguard';
 
 
 enum Sexo {
@@ -44,6 +45,8 @@ export class animalController {
 
     @Get()
     @ApiTags('Animais')
+    @ApiBearerAuth()
+    @UseGuards(VetAuthGuard)
     async listAll() {
         return this.animalService.listAllAnimals();
     }
