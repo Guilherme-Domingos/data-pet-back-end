@@ -65,6 +65,9 @@ export class PdfService {
             <html lang="en">
                 <head>
                     <meta charset="UTF-8" />
+                    <link rel="preconnect" href="https://fonts.googleapis.com">
+                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
                     <title>Prontuário</title>
                     <style>
                         body {
@@ -517,14 +520,14 @@ export class PdfService {
                                 </svg>
                             </div>
                             <input
-                                style="
-                                    font-style: italic;
-                                    font-size: 4ex;
-                                    height: 25px;
-                                    border: 0;
-                                    font-family: Autography, Arial, sans-serif;
-                                "
-                                placeholder="${prontuario.veterinario.nome}" />
+    style="
+        font-family: 'Dancing Script', cursive;
+        font-optical-sizing: auto;
+        font-weight: normal;
+        font-style: normal;
+    "
+    placeholder="${prontuario.veterinario.nome}"
+/>
                         </div>
 
                         <div class="id" style="width: 21%; text-align: left">
