@@ -39,10 +39,6 @@ model Cliente {
   prontuarios      Prontuario[]
 }
 
-enum Sexo {
-  MACHO
-  FEMEA
-}
 
 model Animais {
   id               Int          @id @default(autoincrement())
@@ -52,7 +48,7 @@ model Animais {
   idade            Int
   peso             Float
   porte            String
-  sexo             Sexo
+  sexo             String
   data_nascimento  DateTime
   tutorId          Int
   tutor            Cliente      @relation(fields: [tutorId], references: [id])
