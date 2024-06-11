@@ -1,8 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 
+enum Sexo {
+  MACHO = 'macho',
+  FEMEA = 'femea',
+}
+
 export class AnimalDTO {
 
-    
     @ApiProperty()
     nome: string;
 
@@ -21,12 +25,11 @@ export class AnimalDTO {
     @ApiProperty()
     porte: string;
 
-    @ApiProperty()
-    sexo: string;
+    @ApiProperty({ enum: Sexo })
+    sexo: Sexo;
 
     @ApiProperty()
     data_nascimento: Date;
-
 
     tutorId?: number;
 

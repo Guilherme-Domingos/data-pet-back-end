@@ -9,6 +9,7 @@ export class crudService{
         const {
             tutorId, 
             animalId,
+            veterinarioId,
             doencas,
             vacinas,
             data_atualizacao,
@@ -21,6 +22,7 @@ export class crudService{
                 data: {
                     tutorId,
                     animalId,
+                    veterinarioId,
                     doencas,
                     vacinas,
                     data_atualizacao,
@@ -42,6 +44,7 @@ export class crudService{
                 include: {
                     tutor: true,
                     animal: true,
+                    veterinario: true,
                 },
             });
     

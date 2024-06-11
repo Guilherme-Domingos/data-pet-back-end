@@ -39,14 +39,26 @@ export class PdfService {
             include: {
                 tutor: true,
                 animal: true,
+                veterinario: true,
+                Consulta: true,
             },
         });
-        if (!prontuario) {
-            throw new HttpException(
-                'Prontuário não encontrado',
-                HttpStatus.NOT_FOUND
-            );
+
+        let htmlConsultas = '';
+        if (prontuario && prontuario.Consulta) {
+            for (const consulta of prontuario.Consulta) {
+                htmlConsultas += `
+            <div class="container2">
+                <p class="subtitulos">Consulta</p>
+                <p><strong>Data:</strong> ${consulta.data_cadastro}</p>
+                <p><strong>Diagnóstico:</strong> ${consulta.diagnostico}</p>
+                <p><strong>Tratamento:</strong> ${consulta.diagnostico}</p>
+                <p><strong>Observações:</strong> ${consulta.pressao}</p>
+            </div>
+        `;
+            }
         }
+
         const nome = prontuario.tutor.nome;
         const htmlContent = `
             <!DOCTYPE html>
@@ -512,7 +524,7 @@ export class PdfService {
                                     border: 0;
                                     font-family: Autography, Arial, sans-serif;
                                 "
-                                placeholder="Médico" />
+                                placeholder="${prontuario.veterinario.nome}" />
                         </div>
 
                         <div class="id" style="width: 21%; text-align: left">
@@ -710,6 +722,8 @@ export class PdfService {
                                 >
                                 <input id="dataNascimentoAnimal" type="date" value="${new Date(prontuario.animal.data_nascimento).toISOString().split('T')[0]}" />
                             </div>
+
+                            ${htmlConsultas}
                         </div>
                     </main>
                 </body>
@@ -725,10 +739,12 @@ export class PdfService {
             waitUntil: 'networkidle0',
             timeout: 60000,
         });
-        const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true });
+        const pdfBuffer = await page.pdf({
+            format: 'A4',
+            printBackground: true,
+        });
         await browser.close();
 
-        return {pdfBuffer, nome};
-
+        return { pdfBuffer, nome };
     }
 }

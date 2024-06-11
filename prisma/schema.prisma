@@ -8,18 +8,19 @@ datasource db {
 }
 
 model Veterinario {
-  id               Int                 @id @default(autoincrement())
+  id               Int          @id @default(autoincrement())
   nome             String
-  cpf              String
-  crmv             String
+  cpf              String       @unique
+  crmv             String       @unique
   data_nascimento  DateTime
   endereco         String
   telefone         String
   email            String
-  data_cadastro    DateTime            @default(now())
-  data_atualizacao DateTime            @updatedAt
+  data_cadastro    DateTime     @default(now())
+  data_atualizacao DateTime     @updatedAt
   data_exclusao    DateTime?
-  consultas        HistoricoConsulta[]
+  consultas        Consulta[]
+  prontuarios      Prontuario[]
 }
 
 model Cliente {
@@ -38,6 +39,11 @@ model Cliente {
   prontuarios      Prontuario[]
 }
 
+enum Sexo {
+  MACHO
+  FEMEA
+}
+
 model Animais {
   id               Int          @id @default(autoincrement())
   nome             String
@@ -46,7 +52,7 @@ model Animais {
   idade            Int
   peso             Float
   porte            String
-  sexo             String
+  sexo             Sexo
   data_nascimento  DateTime
   tutorId          Int
   tutor            Cliente      @relation(fields: [tutorId], references: [id])
@@ -54,25 +60,28 @@ model Animais {
   data_atualizacao DateTime     @updatedAt
   data_exclusao    DateTime?
   prontuarios      Prontuario[]
+  consultas        Consulta[]
 }
 
 model Prontuario {
-  id                Int                 @id @default(autoincrement())
-  doencas           String
-  vacinas           String
-  animalId          Int
-  animal            Animais             @relation(fields: [animalId], references: [id])
-  tutorId           Int
-  tutor             Cliente             @relation(fields: [tutorId], references: [id])
-  data_cadastro     DateTime            @default(now())
-  data_atualizacao  DateTime            @updatedAt
-  data_exclusao     DateTime?
-  historicoConsulta HistoricoConsulta[]
-  historicoVacina   HistoricoVacina[]
-  historicoServicos HistoricoServicos[]
+  id               Int         @id @default(autoincrement())
+  doencas          String
+  vacinas          String
+  animalId         Int
+  animal           Animais     @relation(fields: [animalId], references: [id])
+  tutorId          Int
+  tutor            Cliente     @relation(fields: [tutorId], references: [id])
+  veterinarioId    Int
+  veterinario      Veterinario @relation(fields: [veterinarioId], references: [id])
+  data_cadastro    DateTime    @default(now())
+  data_atualizacao DateTime    @updatedAt
+  data_exclusao    DateTime?
+  Consulta         Consulta[]
+  Vacina           Vacina[]
+  Servicos         Servicos[]
 }
 
-model HistoricoConsulta {
+model Consulta {
   id               Int         @id @default(autoincrement())
   data_consulta    DateTime
   peso             Float
@@ -83,12 +92,14 @@ model HistoricoConsulta {
   veterinario      Veterinario @relation(fields: [veterinarioId], references: [id])
   prontuarioId     Int
   prontuario       Prontuario  @relation(fields: [prontuarioId], references: [id])
+  animalId         Int
+  animal           Animais     @relation(fields: [animalId], references: [id])
   data_cadastro    DateTime    @default(now())
   data_atualizacao DateTime    @updatedAt
   data_exclusao    DateTime?
 }
 
-model HistoricoVacina {
+model Vacina {
   id               Int        @id @default(autoincrement())
   data_vacina      DateTime
   vacina           String
@@ -100,7 +111,7 @@ model HistoricoVacina {
   data_exclusao    DateTime?
 }
 
-model HistoricoServicos {
+model Servicos {
   id               Int        @id @default(autoincrement())
   data_servico     DateTime
   servico          String

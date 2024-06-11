@@ -6,10 +6,11 @@ import { deleteProntuario } from "./controller/deleteProntuario.controller";
 import { PdfGenerator } from "./controller/gerarPdf.controller";
 import { PdfService } from "./services/pdf.service";
 import { crudService } from "./services/crud.service";
+import { ListById } from "./controller/listById.controller";
 
 @Module({
     imports: [],
-    controllers: [CreateProntuarioController, listProntuario, deleteProntuario, PdfGenerator],
+    controllers: [CreateProntuarioController, listProntuario, deleteProntuario, PdfGenerator, ListById],
     providers: [PrismaService, PdfService, crudService],
 })
 export class ProntuarioModule {}

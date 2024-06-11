@@ -14,6 +14,9 @@ export class prontuarioDTO{
     tutorId: number;
 
     @ApiProperty()
+    veterinarioId: number;
+
+    @ApiProperty()
     data_cadastro: Date;
 
     @ApiProperty()
