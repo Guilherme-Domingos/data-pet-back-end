@@ -30,6 +30,9 @@ export class CreateVeterinarioDto {
 
   email: string;
 
+  @ApiProperty()
+  senha: string;
+
   @ApiProperty({ required: false })
 
   data_exclusao?: Date;

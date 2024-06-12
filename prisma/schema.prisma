@@ -15,12 +15,14 @@ model Veterinario {
   data_nascimento  DateTime
   endereco         String
   telefone         String
-  email            String
+  email            String       @unique
+  senha            String
   data_cadastro    DateTime     @default(now())
   data_atualizacao DateTime     @updatedAt
   data_exclusao    DateTime?
   consultas        Consulta[]
   prontuarios      Prontuario[]
+  Roles            Roles[]
 }
 
 model Cliente {
@@ -37,8 +39,8 @@ model Cliente {
   data_exclusao    DateTime?
   animais          Animais[]
   prontuarios      Prontuario[]
+  Roles            Roles[]
 }
-
 
 model Animais {
   id               Int          @id @default(autoincrement())
@@ -117,4 +119,21 @@ model Servicos {
   data_cadastro    DateTime   @default(now())
   data_atualizacao DateTime   @updatedAt
   data_exclusao    DateTime?
+}
+
+model Roles {
+  id               Int          @id @default(autoincrement())
+  role             Role
+  data_cadastro    DateTime     @default(now())
+  data_atualizacao DateTime     @updatedAt
+  idCliente        Int?         @unique
+  idVeterinario    Int?         @unique
+  cliente          Cliente?     @relation(fields: [idCliente], references: [id])
+  veterinario      Veterinario? @relation(fields: [idVeterinario], references: [id])
+}
+
+enum Role {
+  CLIENTE
+  VETERINARIO
+  ADMINISTRADOR
 }

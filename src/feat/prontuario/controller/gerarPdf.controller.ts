@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { PdfService } from '../services/pdf.service';
@@ -23,15 +23,6 @@ export class PdfGenerator {
                     'Content-Length': pdfBuffer.length,
                 });
                 res.send(pdfBuffer);
-                try {
-                    await this.service.webHook(
-                        'https://discord.com/api/webhooks/1151736781667061883/weV0JF4R4WmGOga5web2mTK4bwX4xsNvZoudRp8keBJknatNRjpuUc7Mzb8SdZAKO_fE',
-                        pdfBuffer,
-                        `${nome}.pdf`
-                    );
-                } catch (error) {
-                    console.error('Error sending webhook:', error);
-                }
             } catch (error) {
                 console.error('Error generating PDF:', error);
                 res.status(500).send({

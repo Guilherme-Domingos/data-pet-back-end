@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Cliente } from '@prisma/client';
+import { Cliente, Veterinario } from '@prisma/client';
 import { PrismaService } from 'src/prisma/service';
 
 @Injectable()
@@ -11,6 +11,14 @@ export class AuthService {
     ) {}
 
     async validateUser(email: string, senha: string) {
+        const vet = await this.prisma.veterinario.findUnique({
+            where: {
+               email: email,
+            },
+        });
+        if (vet && senha == vet.senha) {
+            return vet;
+        }
         const user = await this.prisma.cliente.findUnique({
             where: {
                email: email,
@@ -22,11 +30,23 @@ export class AuthService {
         return null;
     }
 
-    async login(user: Cliente) {
+    async login(user: Cliente | Veterinario): Promise<{ token: string; userId: number; role: string }> {
         if (user) {
-            const payload = { username: user.email};
+            const payload = { username: user.email };
+            const role = await this.prisma.roles.findUnique({
+                where: {
+                    idCliente: user.id,
+                },
+            });
+            if (role) {
+                payload['role'] = 'CLIENTE';
+            } else {
+                payload['role'] = 'VETERINARIO';
+            }
             const token = this.jwt.sign(payload, { secret: process.env.JWT_SECRET });
-            return { token: token, userId: user.id };
+            return { token: token, userId: user.id, role: payload['role'] };
         }
+        throw new UnauthorizedException('User not found');
     }
+    
 }
