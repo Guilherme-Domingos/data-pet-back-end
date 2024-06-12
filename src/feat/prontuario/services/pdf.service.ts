@@ -62,97 +62,140 @@ export class PdfService {
         const nome = prontuario.tutor.nome;
         const htmlContent = `
             <!DOCTYPE html>
-            <html lang="en">
-                <head>
-                    <meta charset="UTF-8" />
-                    <link rel="preconnect" href="https://fonts.googleapis.com">
-                    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
-                    <title>Prontuário</title>
-                    <style>
-                        body {
-                            background-image: url(img/background.png);
-                            font-family: Arial, Helvetica, sans-serif;
-                        }
-                        .container {
-                            border: 0;
-                            outline: none;
-                            font-size: 15px;
-                            background-color: white;
-                            border-radius: 10px;
-                            text-align: center;
-                            margin: 20mm 100mm;
-                            padding-bottom: 10px;
-                        }
-                        .container input {
-                            border: 0;
-                            outline: none;
-                        }
-                        .container2 {
-                            font-size: 12px;
-                            background-color: white;
-                            border-radius: 5px;
-                            border: 3px solid #8b5795;
-                            margin-top: 0;
-                            margin-bottom: 3mm;
-                        }
-                        header {
-                            text-align: right;
-                        }
-                        main {
-                            text-align: left;
-                            margin: 10mm;
-                        }
-                        .titulos {
-                            font-family: Arial, Helvetica, sans-serif;
-                            text-align: left;
-                            margin: 0;
-                            background-color: #8b5795;
-                            color: white;
-                            padding: 10px 2px;
-                        }
-                        .subtitulos {
-                            text-align: left;
-                            margin: 2mm 2mm;
-                            margin-bottom: 1px;
-                            background-color: #ffecf4;
-                            color: black;
-                            padding: 1px 2px;
-                            font-size: 3.5ex;
-                        }
-                        .subtitulos input {
-                            background-color: #ffecf4;
-                            border: 0;
-                            outline: none;
-                        }
-                        .id {
-                            font-family: Arial, Helvetica, sans-serif;
-                            color: white;
-                            border-radius: 40px;
-                            border: 3px solid;
-                            padding-left: 2mm;
-                            margin-right: 10mm;
-                            margin-top: 10mm;
-                            background-color: #8b5795;
-                        }
-                        .img {
-                            display: flex;
-                            padding-left: 2mm;
-                            margin-left: 10mm;
-                            margin-right: 10mm;
-                            margin-top: 10mm;
-                        }
-                        @font-face {
-                            font-family: Autography;
-                            src: url('fonte/Autography.otf');
-                        }
-                    </style>
-                </head>
-                <body>
-                    <header style="display: flex; justify-content: space-between">
-                        <div class="img">
-                            <div class="logo">
-                                                    <svg
+            <html lang="pt-BR">
+            <head>
+                <meta charset="UTF-8">
+                <title>Prontuário</title>
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="https://fonts.googleapis.com/css2?family=Gwendolyn:wght@400;700&display=swap" rel="stylesheet">
+
+                <style>
+            
+                    .conteiner{
+                        border: 0 ;
+                        outline: none;
+                        font-size: 15px;
+                        background-color: white;
+                        border-radius: 10px;
+                        text-align: center;
+                        margin: 20mm 100mm;
+                        padding-bottom: 10px;
+                        overflow: hidden; 
+                    }
+
+                    .conteiner input{
+                        border: 0 ;
+                        outline: none;
+                    }
+
+                    .conteiner2{   
+                        font-size: 12px;
+                        background-color: white;
+                        border-radius: 5px;
+                        border: 3px solid #8b5795;
+                        margin-top: 0;
+                        margin-bottom: 3mm;
+                        overflow: hidden; 
+                    }
+
+                    header{
+                        text-align: right;
+                    }
+
+                    main{
+                        text-align: left;
+                        margin: 10mm; 
+                    }
+
+                    .titulos{
+                        font-family: Arial, Helvetica, sans-serif;
+                        text-align: left;
+                        margin: 0mm 0mm;
+                        background-color: #8b5795;
+                        border: 1px solid #8b5795;
+                        color:white;    
+                        padding-left: 2px;
+                        padding-right: 2px;
+                        padding-bottom: 2px;
+                        padding-top: 2px;
+                        
+                    }
+
+                    .subtitulos{
+                        display: flex;
+                        margin: 2mm 2mm;
+                        margin-bottom: 1px;
+                        padding-left: 2px;
+                        padding-top: 0px;
+                        padding-bottom: 1px ;
+                        font-size: 3.5ex; 
+                        box-sizing: border-box;
+                    }   
+
+                    .subtitulos input{
+                        background-color: #ecbdd1;
+                        border: 1px solid #ffecf4 ;
+                        border-radius: 4px;    
+                        font-size: medium;
+                        flex: 1;
+                        
+                    }
+
+                    .radio{
+                        margin: 2mm 2mm;
+                        margin-bottom: 1px;
+                        padding-left: 2px;
+                        padding-top: 0px;
+                        padding-bottom: 1px ;
+                        font-size: 3.5ex; 
+                        
+                    }
+
+                    .id{
+                        font-family: Arial, Helvetica, sans-serif;
+                        color: white;
+                        border-radius: 40px;
+                        border: 3px solid ;
+                        padding-left: 2mm;
+                        margin-right: 10mm;
+                        margin-top: 10mm;
+                        background-color: #8b5795;
+                    }
+
+                    .img{
+                        display: flex;
+                        padding-left: 2mm;
+                        margin-left: 10mm;
+                        margin-right: 10mm;
+                        margin-top: 10mm;  
+                
+                    }
+
+                    input[type=number]::-webkit-inner-spin-button,
+                    input[type=number]::-webkit-outer-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                    }
+                    .gwendolyn-regular {
+                        font-family: "Gwendolyn", cursive;
+                        font-weight: 400;
+                        font-style: normal;
+                    }
+
+                    .gwendolyn-bold {
+                        font-family: "Gwendolyn", cursive;
+                        font-weight: 700;
+                        font-style: normal;
+                    }
+                    
+                </style>
+            </head>
+            <body> 
+                
+                    <header style="display: flex; justify-content: space-between;">
+                        <div class="img" style="width: 50%;"> 
+                            <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     xmlns:xlink="http://www.w3.org/1999/xlink"
                                     id="eiEzgFMJBnY1"
@@ -518,219 +561,147 @@ export class PdfService {
                                             stroke-width="1.822" />
                                     </g>
                                 </svg>
-                            </div>
-                            <input
-    style="
-        font-family: 'Dancing Script', cursive;
-        font-optical-sizing: auto;
-        font-weight: normal;
-        font-style: normal;
-    "
-    placeholder="${prontuario.veterinario.nome}"
-/>
+                            <input class="gwendolyn-bold" style="font-style: italic;font-size: 4ex;height: 25px;border: 0;" placeholder="${prontuario.veterinario.nome}" >
                         </div>
 
-                        <div class="id" style="width: 21%; text-align: left">
-                            <h2>Prontuário Veterinário</h2>
-                            <h2>
-                                ID: ${prontuario.id}
-                                <input
-                                    style="
-                                        background-color: #8b5795;
-                                        width: 80%;
-                                        margin-left: 2mm;
-                                        height: 30px;
-                                        font-size: 2ex;
-                                        border: 0;
-                                    " />
-                            </h2>
-                        </div>
+                        <div class="id" style="width: 21%;text-align: left;">
+                            <h2 >Prontuário Veterinário</h2>
+                            <h2>ID:<input style="background-color: #8b5795;width: 80%;margin-left: 2mm;height: 30px;font-size: 2ex;border: 0;" value="${prontuario.id}"></h2>
+                            
+                        </div>      
+
                     </header>
+
                     <main>
-                        <div class="container2">
-                            <div>
-                                <strong
-                                    ><h2 class="titulos">
-                                        Informações do Proprietário
-                                    </h2></strong
-                                >
+                        <div class="conteiner2">
+                            <div> 
+                                <strong><h2 class="titulos">Informações do Proprietario</h2></strong>
+                            </div>  
+
+                            <div class="subtitulos"> 
+                                <label >Nome: </label>
+                                <input type="text" maxlength="50" value="${prontuario.tutor.nome}" placeholder="Digite seu nome completo">
                             </div>
 
+                            <div class="subtitulos"> 
+                                <label >Email: </label>
+                                <input type="text" maxlength="50" value="${prontuario.tutor.email}" placeholder="ex: josefa.cringe@gmail.com">
+                            </div>
+                            
                             <div class="subtitulos">
-                                <label for="nomeProprietario">Nome: </label>
-                                <input
-                                    id="nomeProprietario"
-                                    type="text"
-                                    style="width: 80%"
-                                    maxlength="50"
-                                    value="${prontuario.tutor.nome}"
-                                    placeholder="Digite seu nome completo" />
+                                <label for="telefone">Telefone: </label>
+                                <input type="text" id="telefone" maxlength="15" value="${prontuario.tutor.telefone || ''}" placeholder="(00) 00000-0000">
+                            </div>
+                            <script>
+                                document.getElementById('telefone').addEventListener('input', function (e) {
+                                    let telefone = e.target.value.replace(/\D/g, ''); 
+                                    telefone = telefone.replace(/(\d{1})(\d)/, '($1$2) '); 
+                                    telefone = telefone.replace(/(\d{5})(\d)/, '$1-$2'); 
+                                    e.target.value = telefone;
+                                });
+                            </script>
+
+                            <div class="subtitulos"> 
+                                <label for="cpf">CPF:</label>
+                                <input type="text" id="cpf" maxlength="14" value="${prontuario.tutor.cpf || ''}" placeholder="000.000.000-00">
+                            </div>
+                            <script>
+                                document.getElementById('cpf').addEventListener('input', function (e) {
+                                    let cpf = e.target.value.replace(/\D/g, ''); 
+                                    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); 
+                                    cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2'); 
+                                    cpf = cpf.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); 
+                                    e.target.value = cpf;
+                                });
+                            </script>
+
+                            <div class="subtitulos">  
+                                <label >Endereço:</label>
+                                <input type="text" value="${prontuario.tutor.endereco || ''}" placeholder="rua das flores,58">
                             </div>
 
-                            <div class="subtitulos">
-                                <label for="emailProprietario">Email: </label>
-                                <input
-                                    id="emailProprietario"
-                                    type="email"
-                                    style="width: 80%"
-                                    maxlength="50"
-                                    value="${prontuario.tutor.email}"
-                                    placeholder="ex: josefa.cringe@gmail.com" />
+                            <div class="subtitulos"> 
+                                <label >Data de cadastro:</label>
+                                <input type="date" value="${new Date(prontuario.tutor.data_cadastro).toISOString().split('T')[0]}">
                             </div>
 
-                            <div class="subtitulos">
-                                <label for="telefoneProprietario">Telefone: </label>
-                                <input
-                                    id="telefoneProprietario"
-                                    type="tel"
-                                    style="width: 80%"
-                                    value="${prontuario.tutor.telefone || ''}"
-                                    placeholder="(00) 00000-0000" />
+                            <div class="subtitulos"> 
+                                <label >Data de nascimento:</label>
+                                <input type="date" value="${new Date(prontuario.tutor.data_nascimento).toISOString().split('T')[0]}">
                             </div>
-
-                            <div class="subtitulos">
-                                <label for="cpfProprietario">CPF:</label>
-                                <input
-                                    id="cpfProprietario"
-                                    type="text"
-                                    value="${prontuario.tutor.cpf || ''}"
-                                    placeholder="000.000.000-00" />
-                            </div>
-
-                            <div class="subtitulos">
-                                <label for="enderecoProprietario">Endereço:</label>
-                                <input
-                                    id="enderecoProprietario"
-                                    type="text"
-                                    value="${prontuario.tutor.endereco || ''}"
-                                    placeholder="rua das flores, 58" />
-                            </div>
-
-                            <div class="subtitulos">
-                                <label for="dataCadastroProprietario"
-                                    >Data de cadastro:</label
-                                >
-                                <input id="dataCadastroProprietario" type="date" value="${new Date(prontuario.tutor.data_cadastro).toISOString().split('T')[0]}" />
-
-                            </div>
-
-                            <div class="subtitulos">
-                                <label for="dataNascimentoProprietario"
-                                    >Data de nascimento:</label
-                                >
-                                <input id="dataNascimentoProprietario" type="date" value="${new Date(prontuario.tutor.data_nascimento).toISOString().split('T')[0]}" />
-                            </div>
+                                                                
                         </div>
 
-                        <div class="container2">
+                        <div class="conteiner2">
                             <div>
                                 <h2 class="titulos">Informações do Animal</h2>
                             </div>
 
-                            <div style="display: flex; justify-content: space-between">
-                                <div class="subtitulos" style="width: 50%">
-                                    <label for="nomeAnimal">Nome: </label>
-                                    <input
-                                        id="nomeAnimal"
-                                        type="text"
-                                        style="width: 80%"
-                                        maxlength="100"
-                                        value="${prontuario.animal.nome}"
-                                        placeholder="ex: Spike, Bob, Bartolomeu" />
+                            <div style="display: flex; justify-content: space-between;">
+                                <div class="subtitulos" style="width: 50%;"> 
+                                    <label ></label>Nome: </label>
+                                    <input type="text" style="width: 80%;" value="${prontuario.animal.nome}" maxlength="100" placeholder="ex: Spike,Bob,Bartolomeu.....">
                                 </div>
 
-                                <div class="subtitulos" style="width: 50%">
-                                    <label for="especieAnimal">Espécie: </label>
-                                    <input
-                                        id="especieAnimal"
-                                        type="text"
-                                        maxlength="20"
-                                        value="${prontuario.animal.especie || ''}"
-                                        placeholder="ex: Canina, Felina" />
+                                <div class="subtitulos" style="width: 50%;">
+                                    <label >Espécie: </label>
+                                    <input type="text" maxlength="20" value="${prontuario.animal.especie || ''}" placeholder="ex: preto">
                                 </div>
+                                
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between;">
+                                <div class="radio" style="width: 50%;"> 
+                                    <label >Sexo: </label>
+                                    <input type="radio" name="Sexo" value="${prontuario.animal.sexo === 'Macho' ? 'checked' : ''}"><a>Macho</a>   <input type="radio" name="Sexo" value="${prontuario.animal.sexo === 'Fêmea' ? 'checked' : ''}">Fêmea
+                                </div>
+
+                                <div class="subtitulos" style="width: 50%;">
+                                    <label >Raça: </label>
+                                    <input type="text" maxlength="20" value="${prontuario.animal.raca || ''}" placeholder="ex: preto">
+
+                                </div>
+                            </div> 
+
+                            <div style="display: flex; justify-content: space-between;">
+
+                                <div style="width: 30%;" class="subtitulos">
+                                    <label >Cor:</label>
+                                    <input type="text" maxlength="15" value="${prontuario.animal.raca || ''}" placeholder="ex: preto">
+
+                                </div>
+
+                                <div style="width: 30%;" class="subtitulos">
+                                    <label >Peso: </label>
+                                    <input type="number" maxlength="20" value="${prontuario.animal.peso || ''}" placeholder="kg">
+
+                                </div>
+
+                                <div style="width: 30%;" class="subtitulos">   
+                                    <label >Idade: </label>
+                                    <input type="number" step="0.1" style="width: 40%;" value="${prontuario.animal.idade || ''}" placeholder="Ex: 1.5 anos">
+                                </div>
+
+                                
                             </div>
 
-                            <div style="display: flex; justify-content: space-between">
-                                <div class="subtitulos" style="width: 50%">
-                                    <label>Sexo: </label>
-                                    <input
-                                        type="radio"
-                                        name="sexoAnimal"
-                                        value="Macho"
-                                        ${prontuario.animal.sexo === 'Macho' ? 'checked' : ''} />
-                                    Macho
-                                    <input
-                                        type="radio"
-                                        name="sexoAnimal"
-                                        value="Fêmea"
-                                        ${prontuario.animal.sexo === 'Fêmea' ? 'checked' : ''} />
-                                    Fêmea
-                                </div>
-
-                                <div class="subtitulos" style="width: 50%">
-                                    <label for="racaAnimal">Raça: </label>
-                                    <input
-                                        id="racaAnimal"
-                                        type="text"
-                                        maxlength="20"
-                                        value="${prontuario.animal.raca || ''}"
-                                        placeholder="ex: Labrador, Siamês" />
-                                </div>
+                            <div class="subtitulos"> 
+                                <label >Data de cadastro:</label>
+                                <input type="date" value="${new Date(prontuario.animal.data_cadastro).toISOString().split('T')[0]}">
                             </div>
 
-                            <div style="display: flex; justify-content: space-between">
-                                <div class="subtitulos" style="width: 30%">
-                                    <label for="corAnimal">Cor:</label>
-                                    <input
-                                        id="corAnimal"
-                                        type="text"
-                                        maxlength="20"
-                                        value="${prontuario.animal.raca || ''}"
-                                        placeholder="ex: Preto" />
-                                </div>
-
-                                <div class="subtitulos" style="width: 30%">
-                                    <label for="pesoAnimal">Peso: </label>
-                                    <input
-                                        id="pesoAnimal"
-                                        type="number"
-                                        step="0.1"
-                                        maxlength="20"
-                                        value="${prontuario.animal.peso || ''}"
-                                        placeholder="kg" />
-                                </div>
-
-                                <div class="subtitulos" style="width: 30%">
-                                    <label for="idadeAnimal">Idade: </label>
-                                    <input
-                                        id="idadeAnimal"
-                                        type="number"
-                                        step="0.1"
-                                        style="width: 40%"
-                                        value="${prontuario.animal.idade || ''}"
-                                        placeholder="Ex: 1.5 anos" />
-                                </div>
+                            <div class="subtitulos"> 
+                                <label >Data de nascimento:</label>
+                                <input type="date" value="${new Date(prontuario.animal.data_nascimento).toISOString().split('T')[0]}">
                             </div>
-
-                            <div class="subtitulos">
-                                <label for="dataCadastroAnimal"
-                                    >Data de cadastro:</label
-                                >
-                                <input id="dataCadastroAnimal" type="date" value="${new Date(prontuario.animal.data_cadastro).toISOString().split('T')[0]}" />
-                            </div>
-
-                            <div class="subtitulos">
-                                <label for="dataNascimentoAnimal"
-                                    >Data de nascimento:</label
-                                >
-                                <input id="dataNascimentoAnimal" type="date" value="${new Date(prontuario.animal.data_nascimento).toISOString().split('T')[0]}" />
-                            </div>
-
-                            ${htmlConsultas}
                         </div>
-                    </main>
-                </body>
+                            
+                </main>
+            
+            </body>
             </html>
+
+
             `;
 
         const browser = await puppeteer.launch({
