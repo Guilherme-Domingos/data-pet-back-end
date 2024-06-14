@@ -54,6 +54,23 @@ export class AnimalService {
 
     }
 
+    async listbyTutorId(id: string) {
+        const numberID = parseInt(id);
+        try {
+            const response = await this.prisma.animais.findMany({
+                where: {
+                    tutorId: numberID,
+                },
+            });
+            if (response.length === 0) {
+                throw new Error('Nenhum animal encontrado');
+            }
+            return response;
+        } catch (error) {
+            throw new HttpException('Nenhum animal encontrado', HttpStatus.NOT_FOUND);
+        }
+    }
+
     async update(data: AnimalDTO, id: string) {
         const numberID = parseInt(id);
         try {

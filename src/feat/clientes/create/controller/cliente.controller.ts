@@ -1,9 +1,11 @@
 import {
     Body,
     Controller,
+    Get,
     HttpCode,
     HttpException,
     Post,
+    Query,
     UseGuards,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/service';
@@ -60,5 +62,17 @@ export class createUser {
                 500
             );
         }
+    }
+
+
+    @Get('/getUser')
+    @ApiTags('Cliente')
+    async getUser(@Query('id') id: string) {
+        const idNumber = parseInt(id);
+        return await this.prisma.cliente.findUnique({
+            where: {
+                id: idNumber,
+            },
+        });
     }
 }

@@ -100,10 +100,16 @@ export class animalController {
         }
     }
 
-
     @Delete(':id')
     @ApiTags('Animais')
     async delete(@Param('id') id: string) {
         return this.animalService.delete(id);
+    }
+
+    @Get('/tutor/:id')
+    @ApiTags('Animais')
+    async listByTutor(@Param('id') id: string) {
+        
+        return this.animalService.listbyTutorId(id);
     }
 }
