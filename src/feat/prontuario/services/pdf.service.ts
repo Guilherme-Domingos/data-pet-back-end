@@ -88,6 +88,10 @@ export class PdfService {
             },
         });
 
+        if(!prontuario) {
+            throw new HttpException('Prontuário não encontrado', HttpStatus.NOT_FOUND);
+        }
+
         let htmlConsultas = '';
         if (prontuario && prontuario.Consulta) {
             for (const consulta of prontuario.Consulta) {

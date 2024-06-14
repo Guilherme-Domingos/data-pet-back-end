@@ -11,7 +11,7 @@ export class authClient {
     private readonly logger = new Logger(authClient.name);
     constructor(private auth: AuthService) {}
 
-    @Post('/authCliente')
+    @Post('/authUser')
     @ApiTags('Cliente')
     @ApiBody({ type: authDTO })
     @UseGuards(LocalAuthGuard)
