@@ -35,7 +35,7 @@ const AnimalSchema = z.object({
     tutorId: z.number().optional(),
     data_cadastro: z.date(),
     data_atualizacao: z.date(),
-    data_exclusao: z.date().optional(),
+    data_exclusao: z.date().optional().nullable(),
 });
 
 
@@ -109,7 +109,7 @@ export class animalController {
     @Get('/tutor/:id')
     @ApiTags('Animais')
     async listByTutor(@Param('id') id: string) {
-        
+
         return this.animalService.listbyTutorId(id);
     }
 }

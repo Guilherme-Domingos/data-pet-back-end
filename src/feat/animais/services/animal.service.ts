@@ -73,6 +73,7 @@ export class AnimalService {
 
     async update(data: AnimalDTO, id: string) {
         const numberID = parseInt(id);
+        console.log(data, id);
         try {
             const reponse = await this.prisma.animais.update({
                 where: {
