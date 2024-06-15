@@ -75,6 +75,13 @@ export class AnimalService {
         const numberID = parseInt(id);
         console.log(data, id);
         try {
+            const findTutorId = await this.prisma.animais.findUnique({
+                where: {
+                    id: numberID,
+                },
+            });
+            const tutorId = findTutorId.tutorId;
+
             const reponse = await this.prisma.animais.update({
                 where: {
                     id: numberID,
@@ -87,7 +94,7 @@ export class AnimalService {
                     raca: data.raca,
                     idade: data.idade,
                     peso: data.peso,
-                    tutorId: numberID,
+                    tutorId: tutorId,
                     data_nascimento: data.data_nascimento,
                     data_atualizacao: data.data_atualizacao,
                     data_cadastro: data.data_cadastro,

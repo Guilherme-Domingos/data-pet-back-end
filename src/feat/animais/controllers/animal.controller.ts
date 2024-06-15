@@ -18,7 +18,6 @@ import { JwtAuthGuard } from 'src/feat/auth/guards/jwtguard';
 import { z } from 'zod';
 import { VetAuthGuard } from 'src/feat/auth/guards/vetguard';
 
-
 enum Sexo {
     MACHO = 'macho',
     FEMEA = 'femea',
@@ -37,7 +36,6 @@ const AnimalSchema = z.object({
     data_atualizacao: z.date(),
     data_exclusao: z.date().optional().nullable(),
 });
-
 
 @Controller('animais')
 export class animalController {
@@ -63,14 +61,17 @@ export class animalController {
             if (data.data_exclusao) {
                 data.data_exclusao = new Date(data.data_exclusao);
             }
-            
+
             AnimalSchema.parse(data);
             return await this.animalService.create(data, id);
         } catch (error) {
             if (error instanceof z.ZodError) {
                 throw new HttpException(error.errors, HttpStatus.BAD_REQUEST);
             }
-            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new HttpException(
+                error.message,
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
     @Get(':id')
@@ -78,7 +79,6 @@ export class animalController {
     async show(@Param('id') id: string) {
         return this.animalService.listbyId(id);
     }
-
 
     @Put(':id')
     @ApiTags('Animais')
@@ -96,7 +96,10 @@ export class animalController {
             if (error instanceof z.ZodError) {
                 throw new HttpException(error.errors, HttpStatus.BAD_REQUEST);
             }
-            throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new HttpException(
+                error.message,
+                HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
 
@@ -109,7 +112,6 @@ export class animalController {
     @Get('/tutor/:id')
     @ApiTags('Animais')
     async listByTutor(@Param('id') id: string) {
-
         return this.animalService.listbyTutorId(id);
     }
 }
