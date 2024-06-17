@@ -22,7 +22,7 @@ model Veterinario {
   data_exclusao    DateTime?
   consultas        Consulta[]
   prontuarios      Prontuario[]
-  Roles            Roles[]
+  Roles            Roles?
 }
 
 model Cliente {
@@ -39,7 +39,7 @@ model Cliente {
   data_exclusao    DateTime?
   animais          Animais[]
   prontuarios      Prontuario[]
-  Roles            Roles[]
+  Roles            Roles?
 }
 
 model Animais {
@@ -53,12 +53,12 @@ model Animais {
   sexo             String
   data_nascimento  DateTime
   tutorId          Int
-  tutor            Cliente      @relation(fields: [tutorId], references: [id])
   data_cadastro    DateTime     @default(now())
   data_atualizacao DateTime     @updatedAt
   data_exclusao    DateTime?
-  prontuarios      Prontuario[]
+  tutor            Cliente      @relation(fields: [tutorId], references: [id])
   consultas        Consulta[]
+  prontuarios      Prontuario[]
 }
 
 model Prontuario {
@@ -66,17 +66,17 @@ model Prontuario {
   doencas          String
   vacinas          String
   animalId         Int
-  animal           Animais     @relation(fields: [animalId], references: [id])
   tutorId          Int
-  tutor            Cliente     @relation(fields: [tutorId], references: [id])
   veterinarioId    Int
-  veterinario      Veterinario @relation(fields: [veterinarioId], references: [id])
   data_cadastro    DateTime    @default(now())
   data_atualizacao DateTime    @updatedAt
   data_exclusao    DateTime?
   Consulta         Consulta[]
-  Vacina           Vacina[]
+  animal           Animais     @relation(fields: [animalId], references: [id])
+  tutor            Cliente     @relation(fields: [tutorId], references: [id])
+  veterinario      Veterinario @relation(fields: [veterinarioId], references: [id])
   Servicos         Servicos[]
+  Vacina           Vacina[]
 }
 
 model Consulta {
@@ -87,14 +87,14 @@ model Consulta {
   pressao          String
   diagnostico      String
   veterinarioId    Int
-  veterinario      Veterinario @relation(fields: [veterinarioId], references: [id])
   prontuarioId     Int
-  prontuario       Prontuario  @relation(fields: [prontuarioId], references: [id])
   animalId         Int
-  animal           Animais     @relation(fields: [animalId], references: [id])
   data_cadastro    DateTime    @default(now())
   data_atualizacao DateTime    @updatedAt
   data_exclusao    DateTime?
+  animal           Animais     @relation(fields: [animalId], references: [id])
+  prontuario       Prontuario  @relation(fields: [prontuarioId], references: [id])
+  veterinario      Veterinario @relation(fields: [veterinarioId], references: [id])
 }
 
 model Vacina {
@@ -103,10 +103,10 @@ model Vacina {
   vacina           String
   observacao       String
   prontuarioId     Int
-  prontuario       Prontuario @relation(fields: [prontuarioId], references: [id])
   data_cadastro    DateTime   @default(now())
   data_atualizacao DateTime   @updatedAt
   data_exclusao    DateTime?
+  prontuario       Prontuario @relation(fields: [prontuarioId], references: [id])
 }
 
 model Servicos {
@@ -115,21 +115,37 @@ model Servicos {
   servico          String
   descricao        String
   prontuarioId     Int
-  prontuario       Prontuario @relation(fields: [prontuarioId], references: [id])
   data_cadastro    DateTime   @default(now())
   data_atualizacao DateTime   @updatedAt
   data_exclusao    DateTime?
+  prontuario       Prontuario @relation(fields: [prontuarioId], references: [id])
 }
 
 model Roles {
-  id               Int          @id @default(autoincrement())
+  id               Int            @id @default(autoincrement())
   role             Role
-  data_cadastro    DateTime     @default(now())
-  data_atualizacao DateTime     @updatedAt
-  idCliente        Int?         @unique
-  idVeterinario    Int?         @unique
-  cliente          Cliente?     @relation(fields: [idCliente], references: [id])
-  veterinario      Veterinario? @relation(fields: [idVeterinario], references: [id])
+  data_cadastro    DateTime       @default(now())
+  data_atualizacao DateTime       @updatedAt
+  idCliente        Int?           @unique
+  idVeterinario    Int?           @unique
+  idAdministrador  Int?           @unique
+  Administrador    Administrador? @relation(fields: [idAdministrador], references: [id])
+  Cliente          Cliente?       @relation(fields: [idCliente], references: [id])
+  Veterinario      Veterinario?   @relation(fields: [idVeterinario], references: [id])
+}
+
+model Administrador {
+  id               Int      @id @default(autoincrement())
+  nome             String
+  email            String   @unique
+  senha            String
+  cpf              String   @unique
+  data_nascimento  DateTime
+  endereco         String
+  telefone         String   @unique
+  data_cadastro    DateTime @default(now())
+  data_atualizacao DateTime
+  Roles            Roles?
 }
 
 enum Role {

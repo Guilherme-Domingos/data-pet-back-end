@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Cliente, Veterinario } from '@prisma/client';
+import { Administrador, Cliente, Role, Veterinario } from '@prisma/client';
 import { PrismaService } from 'src/prisma/service';
 
 @Injectable()
@@ -27,21 +27,43 @@ export class AuthService {
         if (user && senha == user.senha) {
             return user;
         }
+        const admin = await this.prisma.administrador.findUnique({
+            where: {
+               email: email,
+            },
+        });
+        if (admin && senha == admin.senha) {
+            return admin;
+        }
         return null;
     }
 
-    async login(user: Cliente | Veterinario): Promise<{ token: string; userId: number; role: string }> {
+    async login(user: Cliente | Veterinario  | Administrador ): Promise<{ token: string; userId: number; role: string }> {
         if (user) {
             const payload = { username: user.email };
-            const role = await this.prisma.roles.findUnique({
+            const cliente = await this.prisma.roles.findUnique({
                 where: {
                     idCliente: user.id,
                 },
             });
-            if (role) {
+            if(cliente && cliente.role == Role.CLIENTE){
                 payload['role'] = 'CLIENTE';
-            } else {
+            }
+            const vet = await this.prisma.roles.findUnique({
+                where: {
+                    idVeterinario: user.id,
+                },
+            });
+            if(vet && vet.role == Role.VETERINARIO){
                 payload['role'] = 'VETERINARIO';
+            }
+            const admin = await this.prisma.roles.findUnique({
+                where: {
+                    idAdministrador: user.id,
+                },
+            });
+            if(admin && admin.role == Role.ADMINISTRADOR){
+                payload['role'] = 'ADMIN';
             }
             const token = this.jwt.sign(payload, { secret: process.env.JWT_SECRET });
             return { token: token, userId: user.id, role: payload['role'] };

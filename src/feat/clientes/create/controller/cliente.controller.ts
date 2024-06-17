@@ -14,6 +14,8 @@ import e from 'express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { userServices } from '../services/user.service';
 import { JwtAuthGuard } from '../../../auth/guards/jwtguard';
+import { AdminAuthGuard } from 'src/feat/auth/guards/adminguard';
+import { VetAuthGuard } from 'src/feat/auth/guards/vetguard';
 
 @Controller('/cliente')
 export class createUser {
@@ -74,5 +76,13 @@ export class createUser {
                 id: idNumber,
             },
         });
+    }
+
+    @Get('/getAllUsers')
+    @ApiTags('cliente')
+    @ApiBearerAuth()
+    @UseGuards(VetAuthGuard)
+    async listAll() {
+        return await this.prisma.cliente.findMany();
     }
 }

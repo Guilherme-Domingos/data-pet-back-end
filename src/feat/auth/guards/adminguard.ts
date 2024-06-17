@@ -3,7 +3,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { Reflector } from '@nestjs/core';
 
 @Injectable()
-export class VetAuthGuard extends AuthGuard('jwt') {
+export class AdminAuthGuard extends AuthGuard('jwt') {
     constructor(private reflector: Reflector) {
         super();
     }
@@ -17,12 +17,10 @@ export class VetAuthGuard extends AuthGuard('jwt') {
         const request = context.switchToHttp().getRequest();
         const user = request.user;
 
-        if(user && user.role === 'ADMIN') {
-            return true;
-        }
 
-        if (user && user.role !== 'VETERINARIO') {
-            throw new UnauthorizedException('Access restricted to veterinarians only');
+
+        if (user && user.role !== 'ADMIN') {
+            throw new UnauthorizedException('Access restricted to administrators only');
         }
 
         return true;

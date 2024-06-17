@@ -49,4 +49,8 @@ export class VetService {
             );
         }
     }
+
+    async listAllVets() {
+        return await this.prisma.veterinario.findMany();
+    }
 }
