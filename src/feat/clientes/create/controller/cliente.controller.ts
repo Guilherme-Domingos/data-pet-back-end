@@ -4,7 +4,10 @@ import {
     Get,
     HttpCode,
     HttpException,
+    HttpStatus,
+    Param,
     Post,
+    Put,
     Query,
     UseGuards,
 } from '@nestjs/common';
@@ -16,6 +19,7 @@ import { userServices } from '../services/user.service';
 import { JwtAuthGuard } from '../../../auth/guards/jwtguard';
 import { AdminAuthGuard } from 'src/feat/auth/guards/adminguard';
 import { VetAuthGuard } from 'src/feat/auth/guards/vetguard';
+import { ClienteDTO } from '../../DTOs/cliente.DTO';
 
 @Controller('/cliente')
 export class createUser {
@@ -66,7 +70,6 @@ export class createUser {
         }
     }
 
-
     @Get('/getUser')
     @ApiTags('Cliente')
     async getUser(@Query('id') id: string) {
@@ -84,5 +87,34 @@ export class createUser {
     @UseGuards(VetAuthGuard)
     async listAll() {
         return await this.prisma.cliente.findMany();
+    }
+
+    @Put('/edit/:id')
+    @ApiTags('Cliente')
+    async editData(@Body() data: ClienteDTO, @Param('id') id: string) {
+        const idNumber = parseInt(id);
+        const filteredData = {};
+
+        // Filtrar os campos que não são undefined ou null
+        for (const key in data) {
+            if (data[key] !== undefined && data[key] !== null) {
+                filteredData[key] = data[key];
+            }
+        }
+
+        try {
+            const response = await this.prisma.cliente.update({
+                where: {
+                    id: idNumber,
+                },
+                data: filteredData,
+            });
+            return response;
+        } catch (e) {
+            throw new HttpException(
+                'Erro ao atualizar dados',
+                HttpStatus.BAD_REQUEST
+            );
+        }
     }
 }
