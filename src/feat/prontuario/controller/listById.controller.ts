@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, HttpException, Param } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { PrismaService } from "src/prisma/service";
 
@@ -9,9 +9,10 @@ export class ListById{
     @Get('/listById/:id')
     @ApiTags('Prontuario')
     async listById(@Param('id') id:string){
-        const numberId = parseInt(id)
-
-        return this.prisma.prontuario.findUnique({
+        try{
+            const numberId = parseInt(id)
+        
+        const response = await this.prisma.prontuario.findUnique({
             where:{
                 id:numberId
             },
@@ -23,7 +24,26 @@ export class ListById{
                 Vacina:true,
                 Servicos:true
             }
-        })
+        });
+        if(!response){
+            throw new HttpException(
+                {
+                    message: 'Prontuario not found',
+                },
+                404
+            );
+        }
+        return response;
+        }catch(error){
+            console.error(error);
+            throw new HttpException(
+                {
+                    message: 'Failed to list prontuario',
+                    error: error,
+                },
+                404
+            );
+        }
     }
 
 }
