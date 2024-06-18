@@ -6,11 +6,11 @@ import { VetService } from '../services/vet.service';
 import { AdminAuthGuard } from 'src/feat/auth/guards/adminguard';
 
 
-@Controller('/veterinarios')
+@Controller('/veterinario')
 export class VeterinariosController {
     constructor(private readonly service: VetService) {}
 
-    @Post('/createVet')
+    @Post('/createVeterinario')
     @ApiTags('Veterinários')
     async createVet(@Body() createVeterinarioDto: CreateVeterinarioDto) {
         const data = createVeterinarioDto;
@@ -22,7 +22,7 @@ export class VeterinariosController {
         }
     }
     @Get('/listAllVets')
-    @ApiTags('veterinarios')
+    @ApiTags('Veterinários')
     @UseGuards(AdminAuthGuard)
     @ApiBearerAuth()
     async listAll() {

@@ -144,7 +144,7 @@ model Administrador {
   endereco         String
   telefone         String   @unique
   data_cadastro    DateTime @default(now())
-  data_atualizacao DateTime
+  data_atualizacao DateTime @updatedAt
   Roles            Roles?
 }
 

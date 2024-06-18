@@ -19,6 +19,18 @@ export class CreateProntuarioController {
   @Post('/createProntuario') 
   @ApiTags('Prontuario')
   async createProntuario(@Body() body: prontuarioDTO) {
-    return this.service.createProntuario(body);
+    try{
+
+      return this.service.createProntuario(body);
+    }catch(error){
+      this.logger.error(error);
+      throw new HttpException(
+        {
+          message: 'Failed to create prontuario',
+          error: error,
+        },
+        HttpStatus.BAD_REQUEST
+      );
+    }
   }
 }

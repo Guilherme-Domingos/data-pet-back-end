@@ -1,6 +1,6 @@
 import { PrismaService } from "src/prisma/service";
 import { prontuarioDTO } from "../DTO/prontuarioDTO";
-import { Injectable } from "@nestjs/common";
+import { HttpException, Injectable } from "@nestjs/common";
 @Injectable()
 export class crudService{
     constructor(private prisma: PrismaService) {}
@@ -34,7 +34,13 @@ export class crudService{
     
         } catch (error) {
             console.error(error);
-            return {message: 'Failed to create prontuario', error: error};
+            throw new HttpException(
+                {
+                    message: 'Failed to create prontuario',
+                    error: error,
+                },
+                400
+            );
         }
     }
 
