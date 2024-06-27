@@ -16,7 +16,7 @@ export class PdfService {
 
 
     async webHook(number: string, id: string) {
-        const baseUrl = process.env.CHECKER == 'development' ? 'https://pure-crag-55388-d0bfd4ddccfc.herokuapp.com/' : 'https://pure-crag-55388-d0bfd4ddccfc.herokuapp.com'
+        const baseUrl = process.env.CHECKER == 'development' ? 'https://pure-crag-55388-d0bfd4ddccfc.herokuapp.com' : 'https://pure-crag-55388-d0bfd4ddccfc.herokuapp.com'
         try {
             const {nome, pdfBuffer } = await this.generatePdf(id); 
             const nomeFormatted = capitalizeFirstLetter(nome);
