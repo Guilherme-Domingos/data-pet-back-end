@@ -16,7 +16,7 @@ export class PdfService {
 
 
     async webHook(number: string, id: string) {
-        const baseUrl = process.env.CHECKER == 'development' ? 'http://localhost:3000' : 'https://pure-crag-55388-d0bfd4ddccfc.herokuapp.com'
+        const baseUrl = process.env.CHECKER == 'development' ? 'http://http://54.166.91.124:3000/' : 'https://pure-crag-55388-d0bfd4ddccfc.herokuapp.com'
         try {
             const {nome, pdfBuffer } = await this.generatePdf(id); 
             const nomeFormatted = capitalizeFirstLetter(nome);
@@ -94,6 +94,7 @@ export class PdfService {
 
         let htmlConsultas = '';
         if (prontuario && prontuario.Consulta) {
+
             for (const consulta of prontuario.Consulta) {
                 htmlConsultas += `
             <div class="container2">
@@ -743,6 +744,7 @@ export class PdfService {
                                 <input type="date" value="${new Date(prontuario.animal.data_nascimento).toISOString().split('T')[0]}">
                             </div>
                         </div>
+                        ${htmlConsultas}
                             
                 </main>
             

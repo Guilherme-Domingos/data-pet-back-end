@@ -5,10 +5,7 @@ import { PrismaService } from 'src/prisma/service';
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private prisma: PrismaService,
-        private jwt: JwtService
-    ) {}
+    constructor(private prisma: PrismaService, private jwt: JwtService) {}
 
     async validateUser(email: string, senha: string) {
         const vet = await this.prisma.veterinario.findUnique({
